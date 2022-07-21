@@ -1,0 +1,25 @@
+version: '3'
+services:
+    eruditeFlower:                # 容器名称, 自行修改
+        build: .           # 构建路径, . 表示会在当前路径下找 Dockerfile 文件
+        image: eruditeflower  # 镜像名称, 如果没有上面的 build, docker-compose 将会尝试从官方仓库 pull 该镜像
+        container_name: eruditeFlower
+        ports:
+        - 20712:80     # 映射端口 虚拟机端口:容器内端口
+        links:
+          - eruditeFlower_mysql     #连接mysql服务
+        restart: unless-stopped
+#        volumes:
+#        - ./src:/var/www/html
+
+    eruditeFlower_mysql:
+        build: ./mysql
+        image: eruditeflowersql
+        container_name: eruditeFlowersql
+        environment:
+          MYSQL_ROOT_PASSWORD: "7695abf4fc926506d0fdb689a23131c2ae77e1de"
+#        ports:
+#         - 22068:3306
+        restart: unless-stopped
+        command:
+            bash -c "crond && /entrypoint.sh mysqld"
