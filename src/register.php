@@ -28,7 +28,7 @@ if (isset($_POST['username']) && isset($_POST['studentid'])) {
 
     $mysqli = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
     mysqli_query($mysqli,"set names utf8");
-    $username = urlencode($mysqli->escape_string($_POST['username']));
+    $username = $mysqli->escape_string($_POST['username']);
     $studentid = addslashes_deep($_POST['studentid']);
 
     if ($mysqli->connect_errno) {
